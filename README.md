@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/xneme/circle-test/tree/master.svg?style=svg)](https://circleci.com/gh/xneme/circle-test/tree/master)
+
 # Toskaboiler
 
 Toskaboiler is a boilerplate for anyone wanting to get a kickstart on mono-repo react - fullstack project. It contains all the parts that are common in toska projects.

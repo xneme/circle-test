@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  cypress: cypress-io/cypress@1
+  cypress: cypress-io/cypress@1.7.0
 executors:
   cypress-env:
     docker:
@@ -16,7 +16,7 @@ jobs:
           at: ~/
       - run: echo MOCK_RELEASING!
 workflows:
-  build:
+  build-test-deploy:
     jobs:
       - cypress/install:
           executor: cypress-env
@@ -24,10 +24,10 @@ workflows:
       - cypress/run:
           executor: cypress-env
           requires:
-            - cypress/install
+          - cypress/install
           start: npm start
           wait-on: 'http://localhost:8000'
           record: true
       - release:
-        requires:
-          - cypress/run
+          requires:
+            - cypress/run
