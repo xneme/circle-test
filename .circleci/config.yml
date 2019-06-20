@@ -13,6 +13,14 @@ executors:
       #    POSTGRES_PASSWORD: salasana
       #    POSTGRES_USER: postgres
 jobs:
+  create-db:
+    executor: test-env
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: npm run db:create
+      - run: npm run db:migrate
+      - run: npm run db:seed:all
   release:
     executor: test-env
     steps:
@@ -24,15 +32,13 @@ workflows:
     jobs:
       - cypress/install:
           executor: test-env
-          setup:
-            build:
-              - run: npm run db:create
-              - run: npm run db:migrate
-              - run: npm run db:seed:all
+      - create-db:
+          requires:
+            - cypress/install
       - cypress/run:
           executor: test-env
           requires:
-            - cypress/install
+            - create-db
           build: npm run build
           start: npm start
           wait-on: 'http-get://localhost:8000'
