@@ -41,7 +41,7 @@ workflows:
           requires:
             - create-db
           build: npm run build
-          start: npm test-start
+          start: npm run test-start
           wait-on: 'http-get://localhost:8000'
           # record: true
       - release:
