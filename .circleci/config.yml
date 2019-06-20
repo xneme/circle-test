@@ -1,7 +1,33 @@
 version: 2.1
-orbs:
-  hello: circleci/hello-build@0.0.5
+executors:
+  install:
+    docker:
+      - image: circleci/node:10.15
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: npm ci
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+jobs:
+  test:
+    executor: install
+    steps:
+     - run:
+      name: run tests
+      command: echo "MOCK TEST RUN!"
+
 workflows:
-  'Hello Workflow':
+  test:
     jobs:
-      - hello/hello-build
+      - test
