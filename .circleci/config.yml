@@ -20,12 +20,12 @@ workflows:
     jobs:
       - cypress/install:
           executor: cypress-env
-          build: npm run build
       - cypress/run:
           executor: cypress-env
           requires:
           - cypress/install
-          start: npm run dev
+          build: npm run build
+          start: npm start
           #start: npm start
           wait-on: 'http-get://localhost:8000'
           # record: true
