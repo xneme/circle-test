@@ -4,6 +4,10 @@ executors:
     docker:
       - image: circleci/node:10.15
     working_directory: ~/repo
+
+jobs:
+  test:
+    executor: install
     steps:
       - checkout
       - setup_remote_docker
@@ -19,10 +23,6 @@ executors:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-jobs:
-  test:
-    executor: install
-    steps:
       - run: echo "MOCK TEST RUN!"
 
 workflows:
