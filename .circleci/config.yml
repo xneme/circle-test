@@ -25,7 +25,8 @@ workflows:
           executor: cypress-env
           requires:
           - cypress/install
-          start: npm start
+          start: npm run dev
+          #start: npm start
           wait-on: 'http-get://localhost:8000'
           # record: true
       - release:
