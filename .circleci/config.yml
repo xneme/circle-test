@@ -1,31 +1,33 @@
 version: 2.1
+orbs:
+  cypress: cypress-io/cypress@1
 executors:
-  install:
+  cypress-env:
     docker:
-      - image: circleci/node:10.15
-    working_directory: ~/repo
-
+      - image: 'cypress/base:10'
+    environment:
+      FOO: foo
+      BAR: bar
 jobs:
-  test:
-    executor: install
+  release:
+    executor: cypress-env
     steps:
-      - checkout
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: npm ci
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: echo "MOCK TEST RUN!"
-
+      - attach_workspace:
+          at: ~/
+      - run: echo MOCK_RELEASING!
 workflows:
-  test:
+  build:
     jobs:
-      - test
+      - cypress/install:
+          executor: cypress-env
+          build: npm run build
+      - cypress/run:
+          executor: cypress-env
+          requires:
+            - cypress/install
+          start: npm start
+          wait-on: 'http://localhost:8000'
+          record: true
+      - release:
+        requires:
+          - cypress/run
