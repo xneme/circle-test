@@ -8,10 +8,10 @@ executors:
         environment:
           PGUSERNAME: postgres
           PGPASSWORD: salasana
-      - image: 'circleci/postgres:10.6-ram'
-        environment:
-          POSTGRES_PASSWORD: salasana
-          POSTGRES_USER: postgres
+      #- image: 'circleci/postgres:10.6-ram'
+      #  environment:
+      #    POSTGRES_PASSWORD: salasana
+      #    POSTGRES_USER: postgres
 jobs:
   release:
     executor: test-env
