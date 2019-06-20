@@ -1,7 +1,7 @@
 {
-  "name": "toskaboiler",
+  "name": "circle-test",
   "version": "1.0.0",
-  "description": "Boilerplate for future toska frontend projects",
+  "description": "Test project for CircleCi integration",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
@@ -9,7 +9,13 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "lint": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "stats": "webpack --mode production --json --optimize-minimize > stats.json"
+    "stats": "webpack --mode production --json --optimize-minimize > stats.json",
+    "db:create": "sequelize db:create",
+    "db:drop": "sequelize db:drop",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed:all": "sequelize db:seed:all",
+    "db:nuke": "npx npm-run-all -s db:drop db:create",
+    "db:recreate": "npx npm-run-all -s db:nuke db:migrate db:seed:all"
   },
   "engines": {
     "node": ">=10.15"
@@ -42,6 +48,8 @@
     "mini-css-extract-plugin": "^0.5.0",
     "module-alias": "^2.1.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "pg": "^7.11.0",
+    "pg-hstore": "^2.3.3",
     "react": "^v16.8.1",
     "react-dom": "^v16.8.1",
     "react-redux": "^6.0.0",
@@ -51,6 +59,8 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.85.0",
+    "sequelize": "^5.8.10",
+    "sequelize-cli": "^5.5.0",
     "uglifyjs-webpack-plugin": "^2.1.1",
     "wait-on": "^3.2.0",
     "webpack": "^4.29.3",

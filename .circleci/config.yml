@@ -2,15 +2,19 @@ version: 2.1
 orbs:
   cypress: cypress-io/cypress@1.7.0
 executors:
-  cypress-env:
+  test-env:
     docker:
       - image: 'cypress/base:10'
-    environment:
-      FOO: foo
-      BAR: bar
+        environment:
+          PGUSERNAME: postgres
+          PGPASSWORD: salasana
+      - image: 'circleci/postgres:10.6-ram'
+        environment:
+          POSTGRES_PASSWORD: salasana
+          POSTGRES_USER: postgres
 jobs:
   release:
-    executor: cypress-env
+    executor: test-env
     steps:
       - attach_workspace:
           at: ~/
@@ -19,14 +23,18 @@ workflows:
   build-test-deploy:
     jobs:
       - cypress/install:
-          executor: cypress-env
+          executor: test-env
+          build: [
+            'npm run db:create',
+            'npm run db:migrate',
+            'npm run db:seed:all'
+          ]
       - cypress/run:
-          executor: cypress-env
+          executor: test-env
           requires:
-          - cypress/install
+            - cypress/install
           build: npm run build
           start: npm start
-          #start: npm start
           wait-on: 'http-get://localhost:8000'
           # record: true
       - release:

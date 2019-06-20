@@ -1,23 +1,22 @@
-/**
- * Simple example for backend
- */
-const messages = []
-let simpleId = 0
+const db = require('../../models/index')
 
-const getMessages = (req, res) => {
-  res.send(messages).end()
-}
-
-const createMessage = (req, res) => {
-  const newMessage = {
-    id: simpleId,
-    body: req.body.message,
+const getMessages = async (req, res) => {
+  try {
+    const messages = await db.Message.findAll()
+    res.status(200).json(messages)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({ error: 'server went BOOM!' })
   }
-  messages.push(newMessage)
-  res.send(newMessage).end()
-  simpleId += 1
 }
 
+const createMessage = async (req, res) => {
+  const newMessage = await db.Message.create({
+    header: 'Important notice!',
+    content: req.body.message,
+  })
+  res.status(200).json(newMessage)
+}
 
 module.exports = {
   getMessages,

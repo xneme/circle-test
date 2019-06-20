@@ -5,7 +5,7 @@ import { Input, Button, List } from 'semantic-ui-react'
 import { postMessageAction, getMessagesAction } from 'Utilities/redux/messageReducer'
 
 const MessageComponent = ({ messages, postMessage, getMessages }) => {
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     getMessages()
@@ -17,15 +17,19 @@ const MessageComponent = ({ messages, postMessage, getMessages }) => {
       <Button color="purple" onClick={() => postMessage(message)}>
         Send!
       </Button>
-      <List>
-        {messages.map(m => <List.Item key={m.id}>{m.body}</List.Item>)}
-      </List>
+      <div data-cy="messagelist">
+        <List>
+          {messages.map(m => (
+            <List.Item key={m.id}>{m.content}</List.Item>
+          ))}
+        </List>
+      </div>
     </div>
   )
 }
 
 const mapStateToProps = ({ messages }) => ({
-  messages: messages.data.sort((a, b) => a.body.localeCompare(b.body)),
+  messages: messages.data.sort((a, b) => a.content.localeCompare(b.content)),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -33,4 +37,7 @@ const mapDispatchToProps = dispatch => ({
   getMessages: () => dispatch(getMessagesAction()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessageComponent)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MessageComponent)
