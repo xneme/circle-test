@@ -23,9 +23,7 @@ jobs:
   test:
     executor: install
     steps:
-     - run:
-      name: run tests
-      command: echo "MOCK TEST RUN!"
+      - run: echo "MOCK TEST RUN!"
 
 workflows:
   test:
