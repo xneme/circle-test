@@ -14,7 +14,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: echo MOCK_RELEASING!
+      - run: echo MOCK_RELEASING, BOOM!
 workflows:
   build-test-deploy:
     jobs:
