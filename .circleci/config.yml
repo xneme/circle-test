@@ -24,11 +24,11 @@ workflows:
     jobs:
       - cypress/install:
           executor: test-env
-      - cypress/setup:
-          build:
-            - run: npm run db:create
-            - run: npm run db:migrate
-            - run: npm run db:seed:all
+          setup:
+            build:
+              - run: npm run db:create
+              - run: npm run db:migrate
+              - run: npm run db:seed:all
       - cypress/run:
           executor: test-env
           requires:
