@@ -8,6 +8,7 @@ executors:
         environment:
           PGUSERNAME: postgres
           PGPASSWORD: salasana
+          NODE_ENV: test
       - image: 'circleci/postgres:10.6-ram'
         environment:
           POSTGRES_PASSWORD: salasana
@@ -40,7 +41,7 @@ workflows:
           requires:
             - create-db
           build: npm run build
-          start: npm start
+          start: npm test-start
           wait-on: 'http-get://localhost:8000'
           # record: true
       - release:
