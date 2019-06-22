@@ -14,14 +14,6 @@ executors:
           POSTGRES_PASSWORD: salasana
           POSTGRES_USER: postgres
 jobs:
-  create-db:
-    executor: test-env
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run: npm run db:create
-      - run: npm run db:migrate
-      - run: npm run db:seed:all
   release:
     executor: test-env
     parameters:
@@ -48,3 +40,13 @@ workflows:
           requires:
             - cypress/run
           tag: 'staging'
+          filters:
+            branches:
+              only: trunk
+      - release:
+          requires:
+            - cypress/run
+          tag: 'production'
+          filters:
+            branches:
+              only: master
