@@ -24,10 +24,13 @@ jobs:
       - run: npm run db:seed:all
   release:
     executor: test-env
+    parameters:
+      tag:
+        type: string
     steps:
       - attach_workspace:
           at: ~/
-      - run: echo MOCK_RELEASING, BOOM!
+      - run: echo Pretending to release circle-test:<< parameters.tag >>, BOOM!
 workflows:
   build-test-deploy:
     jobs:
@@ -47,3 +50,4 @@ workflows:
       - release:
           requires:
             - cypress/run
+          tag: 'staging'

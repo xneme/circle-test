@@ -9,7 +9,7 @@ const app = express()
 /**
  * Use hot loading when in development, else serve the static content
  */
-if (!inProduction) {
+if (inDevelopment) {
   /* eslint-disable */
   const middleware = require('webpack-dev-middleware')
   const hotMiddleWare = require('webpack-hot-middleware')
@@ -25,4 +25,6 @@ if (!inProduction) {
 app.use(bodyParser.json())
 app.use('/api', routes)
 
-app.listen(PORT, () => { logger.info(`Started on port ${PORT}`) })
+app.listen(PORT, () => {
+  logger.info(`Started on port ${PORT}`)
+})
