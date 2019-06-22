@@ -2,7 +2,12 @@ version: 2.1
 orbs:
   cypress: cypress-io/cypress@1.7.0
 executors:
-  test-env:
+  test:
+    docker:
+      - image: 'cypress/base:10'
+        environment:
+          NODE_ENV: test
+  test-db:
     docker:
       - image: 'cypress/base:10'
         environment:
@@ -15,7 +20,7 @@ executors:
           POSTGRES_USER: postgres
 jobs:
   release:
-    executor: test-env
+    executor: test
     parameters:
       tag:
         type: string
@@ -27,9 +32,9 @@ workflows:
   build-test-deploy:
     jobs:
       - cypress/install:
-          executor: test-env
+          executor: test
       - cypress/run:
-          executor: test-env
+          executor: test-db
           requires:
             - cypress/install
           build: npm run test:build
