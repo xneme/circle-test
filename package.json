@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
-    "test-start": "cross-env NODE_ENV=test node index.js",
     "build": "webpack --mode production",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "lint": "eslint . --fix",
@@ -16,7 +15,9 @@
     "db:migrate": "sequelize db:migrate",
     "db:seed:all": "sequelize db:seed:all",
     "db:nuke": "npx npm-run-all -s db:drop db:create",
-    "db:recreate": "npx npm-run-all -s db:nuke db:migrate db:seed:all"
+    "db:recreate": "npx npm-run-all -s db:nuke db:migrate db:seed:all",
+    "test:start": "cross-env NODE_ENV=test node index.js",
+    "test:build": "npx npm-run-all -s build db:create db:migrate db:seed:all"
   },
   "engines": {
     "node": ">=10.15"

@@ -36,15 +36,12 @@ workflows:
     jobs:
       - cypress/install:
           executor: test-env
-      - create-db:
-          requires:
-            - cypress/install
       - cypress/run:
           executor: test-env
           requires:
-            - create-db
-          build: npm run build
-          start: npm run test-start
+            - cypress/install
+          build: npm run test:build
+          start: npm run test:start
           wait-on: 'http-get://localhost:8000'
           # record: true
       - release:
