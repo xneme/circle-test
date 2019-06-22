@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const express = require('express')
 const bodyParser = require('body-parser')
-const { PORT, inProduction } = require('@util/common')
+const { PORT, inDevelopment } = require('@util/common')
 const routes = require('@util/routes')
 const logger = require('@util/logger')
 
