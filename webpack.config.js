@@ -77,7 +77,7 @@ module.exports = (env, argv) => {
         chunkFilename: '[name]-[id].css',
       }),
       new webpack.DefinePlugin({
-        __API_BASE__: apiPrefix,
+        __API_BASE__: `'${apiPrefix}'`,
       }),
       ...additionalPlugins,
     ],
