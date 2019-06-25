@@ -7,11 +7,11 @@ const webpack = require('webpack')
 
 module.exports = (env, argv) => {
   const { mode } = argv
-  const additionalPlugins = mode === 'production' || mode === 'test'
+  const additionalPlugins = mode === 'production'
     ? [] // Make JS smaller
     : [new webpack.HotModuleReplacementPlugin()] // Enable hot module replacement
 
-  const additionalOptimizations = mode === 'production' || mode === 'test'
+  const additionalOptimizations = mode === 'production'
     ? {
       minimizer: [
         // Make CSS smaller
@@ -20,9 +20,7 @@ module.exports = (env, argv) => {
     }
     : {}
 
-  const additionalEntries = mode === 'production' || mode === 'test'
-    ? []
-    : ['webpack-hot-middleware/client?http://localhost:8000']
+  const additionalEntries = mode === 'production' ? [] : ['webpack-hot-middleware/client?http://localhost:8000']
 
   return {
     mode,

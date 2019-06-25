@@ -17,8 +17,6 @@ executors:
 workflows:
   build-test-deploy:
     jobs:
-      - cypress/install:
-          executor: test
       - cypress/run:
           executor: test-db
           requires:
