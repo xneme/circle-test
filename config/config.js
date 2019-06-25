@@ -10,7 +10,7 @@ module.exports = {
     dialect: 'postgres',
   },
   test: {
-    username: postgres,
+    username: 'postgres',
     password: '',
     database: 'circle_test',
     host: '127.0.0.1',
