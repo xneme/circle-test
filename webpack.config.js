@@ -7,18 +7,21 @@ const webpack = require('webpack')
 
 module.exports = (env, argv) => {
   const { mode } = argv
-  const additionalPlugins = mode === 'production'
+  const additionalPlugins = mode === 'production' || mode === 'test'
     ? [] // Make JS smaller
     : [new webpack.HotModuleReplacementPlugin()] // Enable hot module replacement
 
-  const additionalOptimizations = mode === 'production' ? {
-    minimizer: [
-      // Make CSS smaller
-      new OptimizeCssAssetsPlugin(),
-    ],
-  } : {}
+  const additionalOptimizations = mode === 'production' || mode === 'test'
+    ? {
+      minimizer: [
+        // Make CSS smaller
+        new OptimizeCssAssetsPlugin(),
+      ],
+    }
+    : {}
 
-  const additionalEntries = mode === 'production' ? []
+  const additionalEntries = mode === 'production' || mode === 'test'
+    ? []
     : ['webpack-hot-middleware/client?http://localhost:8000']
 
   return {
@@ -38,21 +41,21 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [
-        { // Load JS files
+        {
+          // Load JS files
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
           },
         },
-        { // Load CSS files
+        {
+          // Load CSS files
           test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
-        { // Load other files
+        {
+          // Load other files
           test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
           use: ['file-loader'],
         },

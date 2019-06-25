@@ -23,7 +23,7 @@ workflows:
           executor: test-db
           requires:
             - cypress/install
-          build: npm run test:build
+          build: npm run test:setup
           start: npm run test:start
           wait-on: 'http-get://localhost:8000'
       - dockerhub/publish:
