@@ -12,23 +12,8 @@ executors:
     docker:
       - image: 'cypress/base:10'
         environment:
-          PGUSERNAME: postgres
-          PGPASSWORD: salasana
           NODE_ENV: test
       - image: 'circleci/postgres:10.6-ram'
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: salasana
-jobs:
-  release:
-    executor: test
-    parameters:
-      tag:
-        type: string
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run: echo Pretending to release circle-test:<< parameters.tag >>, BOOM!
 workflows:
   build-test-deploy:
     jobs:
@@ -41,10 +26,10 @@ workflows:
           build: npm run test:build
           start: npm run test:start
           wait-on: 'http-get://localhost:8000'
-          # record: true
-      - release:
+      - dockerhub/publish:
           requires:
             - cypress/run
+          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
           tag: 'staging'
           filters:
             branches:

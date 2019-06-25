@@ -10,9 +10,9 @@ module.exports = {
     dialect: 'postgres',
   },
   test: {
-    username: process.env.PGUSERNAME,
-    password: process.env.PGPASSWORD,
-    database: 'database_test',
+    username: postgres,
+    password: '',
+    database: 'circle_test',
     host: '127.0.0.1',
     dialect: 'postgres',
   },
