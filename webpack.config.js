@@ -7,6 +7,7 @@ const webpack = require('webpack')
 
 module.exports = (env, argv) => {
   const { mode } = argv
+  const { apiPrefix } = env
   const additionalPlugins = mode === 'production'
     ? [] // Make JS smaller
     : [new webpack.HotModuleReplacementPlugin()] // Enable hot module replacement
@@ -74,6 +75,9 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({
         filename: '[name].css',
         chunkFilename: '[name]-[id].css',
+      }),
+      new webpack.DefinePlugin({
+        __API_BASE__: `'${apiPrefix}/api'`
       }),
       ...additionalPlugins,
     ],
